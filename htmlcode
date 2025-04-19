@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Traffic Light Control</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+  <h2>Remote LED Controller</h2>
+
+  <label>
+    <input type="checkbox" id="redCheckbox" onchange="updateLED('red')"> Red LED
+  </label><br><br>
+  <label>
+    <input type="checkbox" id="greenCheckbox" onchange="updateLED('green')"> Green LED
+  </label><br><br>
+  <label>
+    <input type="checkbox" id="yellowCheckbox" onchange="updateLED('yellow')"> Yellow LED
+  </label>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCI_eMkYhuyv6QLLYeYPtq7UgctEXKWwtg",
+      authDomain: "trafficlightcalling.firebaseapp.com",
+      databaseURL: "https://trafficlightcalling-default-rtdb.firebaseio.com",
+      projectId: "trafficlightcalling",
+      storageBucket: "trafficlightcalling.firebasestorage.app",
+      messagingSenderId: "1064054018587",
+      appId: "1:1064054018587:web:abf1537a527a3af7121ebe"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    function updateLED(color) {
+      const checkbox = document.getElementById(color + "Checkbox");
+      const value = checkbox.checked ? color : "";
+      database.ref("/leds/" + color).set(value)
+        .then(() => console.log(`${color.toUpperCase()} LED set to "${value}"`))
+        .catch(error => console.error("Error:", error));
+    }
+  </script>
+</body>
+</html>
